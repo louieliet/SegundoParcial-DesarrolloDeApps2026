@@ -37,7 +37,7 @@ struct Product: Identifiable, Decodable, Sendable, Equatable {
         rating: 4.9,
         stock: 5,
         brand: "patito",
-        thumbnail: " "
+        thumbnail: "https://i.ytimg.com/vi/d2QMdIuk7Xk/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AG2CIAC0AWKAgwIABABGHIgSCg7MA8%3D&rs=AOn4CLA96jistx6xmB_OzSeBvFhrSTqdtA"
     )
     
 }
