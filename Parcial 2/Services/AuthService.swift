@@ -103,8 +103,33 @@ struct AuthService : Sendable {
         
     }
     
-    
-    
+    func fetchProfile(token: String) async throws -> UserProfile {
+        guard let url = URL(string: "\(baseURL)/me") else {
+            throw AuthServiceError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw AuthServiceError.invalidResponse
+        }
+        
+        if httpResponse.statusCode == 401 {
+            throw AuthServiceError.sessionExpired
+        }
+        
+        guard(200..<300).contains(httpResponse.statusCode) else {
+            throw AuthServiceError.serverError(statusCode: httpResponse.statusCode)
+        }
+        
+        return try JSONDecoder().decode(UserProfile.self, from: data)
+        
+        
+    }
     
 }
 
