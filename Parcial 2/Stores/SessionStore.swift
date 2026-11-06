@@ -72,4 +72,25 @@ final class SessionStore: ObservableObject {
         }
     }
     
+    func refreshProfile() async {
+
+        guard let token else {
+            return
+        }
+        
+        do{
+            user = try await service.fetchProfile(token: token)
+            errorMessage = nil
+            save()
+            
+        } catch AuthServiceError.sessionExpired {
+            logout()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+        
+        
+    }
+    
+    
 }
